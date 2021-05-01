@@ -6,6 +6,11 @@ import java.util.Map;
 import static java.util.Arrays.asList;
 
 public class RowFixture {
+
+    public static List<Row> joinedRows(){
+        return asList(joinedRow());
+    }
+
     public static List<Row> notOrderedUserRows(){
         return asList(
             userRow2(),
@@ -56,5 +61,13 @@ public class RowFixture {
         return new Row(Map.of("USER_ID", "5",
             "NAME", "paul",
             "EMAIL", "paul@foo.de"));
+    }
+
+    public static Row joinedRow(){
+        return new Row(Map.of("USER_ID", "2",
+            "NAME", "manuel",
+            "EMAIL", "manuel@foo.de",
+            "AD_ID", "1",
+            "TITLE", "car-1"));
     }
 }

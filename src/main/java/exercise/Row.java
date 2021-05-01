@@ -27,6 +27,10 @@ public class Row {
         return this.values.get(key);
     }
 
+    public Map<String, String> getValues(){
+        return values;
+    }
+
     public String printRow(){
         List<String> sortedKeys=new ArrayList(values.keySet());
         Collections.sort(sortedKeys);

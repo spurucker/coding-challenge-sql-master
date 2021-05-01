@@ -1,8 +1,8 @@
+import exercise.Constants;
 import exercise.CsvDataLoaderService;
 import exercise.Database;
 import exercise.Table;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Map;
@@ -35,6 +35,11 @@ public class EbayApplication {
             System.out.println("--------------------PURCHASE TABLE----------------------------");
             database.getValues(Constants.PURCHASE_TABLE)
                 .forEach(r -> System.out.println(r.printRow()));
+
+            System.out.println("--------------------INNER JOIN----------------------------");
+            database.innerJoin(Constants.USER_TABLE, Constants.PURCHASE_TABLE, Constants.USER_ID, Constants.USER_ID)
+                .forEach(r -> System.out.println(r.printRow()));
+
 
         }catch (Exception e){
             e.printStackTrace();

@@ -3,10 +3,15 @@ package exercise;
 import exceptions.ConstructorException;
 import exceptions.NotFoundException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
+import static java.util.stream.Collectors.toMap;
 
 
 public class Database {
@@ -31,5 +36,20 @@ public class Database {
             throw new NotFoundException(String.format("Table %s was not found", tableName));
         }
         return tables.get(tableName).getOrderBy(columnName);
+    }
+
+    public List<Row> innerJoin(String tableLeft, String tableRight, String columnNameLeft, String columnNameRight){
+        List<Row> result = new ArrayList<>();
+        Table left = tables.get(tableLeft);
+        Table right = tables.get(tableRight);
+        left.getRows().forEach(
+            lr-> right.getRows().forEach(rr -> {
+                Map<String, String> newValue = new HashMap<>();
+                newValue.putAll(rr.getValues());
+                newValue.putAll(lr.getValues());
+                result.add(new Row(newValue));
+        }));
+
+        return result;
     }
 }
