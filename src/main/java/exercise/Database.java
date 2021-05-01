@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toMap;
 
 
@@ -44,10 +45,14 @@ public class Database {
         Table right = tables.get(tableRight);
         left.getRows().forEach(
             lr-> right.getRows().forEach(rr -> {
-                Map<String, String> newValue = new HashMap<>();
-                newValue.putAll(rr.getValues());
-                newValue.putAll(lr.getValues());
-                result.add(new Row(newValue));
+                if(nonNull(lr.getValues().get(columnNameLeft))
+                    && lr.getValues().get(columnNameLeft).equalsIgnoreCase(rr.get(columnNameRight)))
+                {
+                    Map<String, String> newValue = new HashMap<>();
+                    newValue.putAll(rr.getValues());
+                    newValue.putAll(lr.getValues());
+                    result.add(new Row(newValue));
+                }
         }));
 
         return result;

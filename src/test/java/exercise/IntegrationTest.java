@@ -57,4 +57,22 @@ class IntegrationTest {
                 .isEqualTo(expected.get(i).printRow());
         }
     }
+
+    @Test
+    void innerJoinEmpty() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("test_users.csv").getFile());
+        CsvDataLoaderService reader = new CsvDataLoaderService();
+        Table userTable = reader.loadInput(file);
+
+        file = new File(classLoader.getResource("test_purchases.csv").getFile());
+        Table purchaseTable = reader.loadInput(file);
+
+        Database database = new Database(Map.of(USER_TABLE, userTable,
+            PURCHASE_TABLE, purchaseTable));
+
+        List<Row> joinedRow = database.innerJoin(USER_TABLE, PURCHASE_TABLE, "OTRO", "OTRO");
+
+        assertThat(joinedRow).isEmpty();
+    }
 }
